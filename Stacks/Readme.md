@@ -4,7 +4,7 @@
 Stacks are array like data strucure but with follows a different set of rules. Stacks Insertion and Deletion occur on the same end and follows the Last In First Out (`LIFO`) scheme. 
 
 
-## Stock Operations
+## Stack Operations
 ### Common Stack Operations
 - push: Inserts an element
 - pop: Removes and returns the last inserted element
