@@ -18,3 +18,8 @@ Stacks are array like data strucure but with follows a different set of rules. S
 - Browser History
 - Undo feature [ctrl + z]
 - Parentheses Matching Program
+
+## Time Complexities  
+- Push: `O(1)`  
+- Pop: `O(1)`  
+- Top: `O(1)`  
