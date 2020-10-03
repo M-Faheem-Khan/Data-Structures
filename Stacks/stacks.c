@@ -1,74 +1,91 @@
 // Initial Code is from: https://www.geeksforgeeks.org/stack-data-structure-introduction-program/
-#include <stdio.h> // standard io
+#include<stdio.h>
+#include<stdlib.h>
 
-// Struct representing Stack
 struct Stack {
-    int top; // last element of the stack
-    int capacity; // max stack size
-    int* array; // array contain all elements of the stack
+    int top; // number of elements in stack
+    int capacity; // size of stack
+    int* array; // array contain all the elements
 };
 
 
-/*
- * creatStack: Returns a new stack of a given size
- * Parameters: 
- *      int capacity: Max capacity of the Stack
- * Returns:
- *      pointer to the stack
- */
+// createStack -> Creates a stack with given size
 struct Stack* createStack(int capacity) {
-    // Creating Stack with appropriate stack size
+    // Allocating Memory for stack
     struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
-    // Setting basic fields
-    stack->capacity = capacity; // max capacity of stack
-    stack->top = -1; // setting to -1; because if it remains unchanged the stack is empty
-    // Creating an integer array of max capacity
-    stack->array = (int*)malloc(stack->capacity*sizeof(int)); 
-    return stack; // returning stack pointer
- }
+    // Setting top -> -1 beacuse if it does not change we know there are 0 elements in array
+    stack->top = -1;
+    stack->capacity = capacity;
+    // Allocating Memory for integer array
+    stack->array = (int*)malloc(capacity * sizeof(int));
+    return stack;
+}
 
 
-/*
- * isFull: Checks if a given stack reached capacity
- * Parameters:
- *      (struct Stack*) stack: stack to check for fullness
- * Returns
- */
-// Stack is full when top is equal to the last index 
-int isFull(struct Stack* stack) 
-{ 
-    return stack->top == stack->capacity - 1; 
-} 
-  
+// isFull -> Checks if the stack is full
+int isFull(struct Stack* stack) {
+    return stack->top == (stack->capacity-1);
+}
 
-/*
- * isEmpty: returns integer (0 or 1) if the stack is empty by checking if the top field has been updated
- * Parameters:
- *      (struct Stack*) stack: stack to check for emptiness
- * Returns
- *      int n: 0 or 1 depending on if the stack is empty
- */
-int isEmpty(struct Stack* stack) 
-{ 
-    return stack->top == -1;  // checking if top field is -1
-} 
+// isEmpty -> Checks if the stack is empty
+int isEmpty(struct Stack* stack) {
+    return stack->top == -1;
+}
+
+// push ->  appends object to stack
+void push(struct Stack* stack, int object) {
+    if (isFull(stack)) {
+        printf("Unable to add object to stack!! Stack has reached capacity\n");
+        return;
+    }
+    stack->array[++stack->top] = object;
+    printf("%d has been added to stack at index %4d\n", object, stack->top);
+}
 
 
-// Function to add an item to stack.  It increases top by 1 
-void push(struct Stack* stack, int item) 
-{ 
-    // Checking if stack if full 
-    if (isFull(stack)) {return;}
+// pop -> "removes" element from stack
+// Elements are not being removed just number of elements(Top) is being decremented
+// each call. We can't resize the array in c that is why. See python implementation
+// where the array is resizable.
+void pop(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Unable to remove element!! Stack has no elements\n");
+        return;
+    }
+    printf("%d is being removed from stack\n", stack->top--);
+}
 
-    // If stack has space
-    // appending item to stack array & increment top feild
-    stack->array[++stack->top] = item; 
-    printf("%d pushed to stack\n", item); // prompt - element has been pushed successfully 
-} 
+
+// preview -> displays all fields in the stack
+void preview(struct Stack* stack) {
+    printf("Top: %4d\n", stack->top);
+    printf("Capacity: %4d\n", stack->capacity);
+    for (int i=0; i < stack->top; i++) {
+        printf("%d, ", stack->array[i]);
+    }
+    printf("\n");
+
+}
 
 
-// MAIN
 int main(void) {
-    printf("Hello World\n");
+    int stack_capacity = 20; // stack capacity
+    struct Stack* stack = createStack(stack_capacity); // creating stack
+
+    // Adding objects to stack
+    for (int i=1; i<=20; i++) {
+        push(stack, i);
+    } 
+    
+    preview(stack); // view elements in stack
+
+    // Removing Objects from stack
+    for (int i=1; i<=10; i++) {
+        pop(stack);
+    } 
+
+    preview(stack); // view elements in stack
+
+	free(stack); // freeing memory
     return 0;
 }
